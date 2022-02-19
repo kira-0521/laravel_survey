@@ -6,7 +6,7 @@ const store = useStore(key);
 </script>
 
 <template>
-  <div>{{ store.state.user.data.name }}</div>
+  <router-view></router-view>
 </template>
 
 <style>
