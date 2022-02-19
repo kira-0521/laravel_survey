@@ -17,13 +17,30 @@ export const store = createStore<State>({
                 imageUrl:
                     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
             },
-            token: "dfsafjdsakl;",
+            token: null,
         },
     },
     mutations: {
         logout(state) {
             state.user.data = {};
-            state.user.token = "";
+            state.user.token = null;
+        },
+    },
+    actions: {
+        register({ commit }, user) {
+            return fetch("http://localhost:8000/api/register", {
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                method: "POST",
+                body: JSON.stringify(user),
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    commit("setUser", res);
+                    return res;
+                });
         },
     },
 });

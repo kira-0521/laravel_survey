@@ -1,6 +1,6 @@
 export interface User {
     data: Partial<UserData>;
-    token: string;
+    token: string | null;
 }
 
 interface UserData {

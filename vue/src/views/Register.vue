@@ -1,3 +1,32 @@
+<script lang="ts" setup>
+import { LockClosedIcon } from "@heroicons/vue/solid";
+import { useStore } from "vuex";
+import { key } from "../store";
+import { useRouter } from "vue-router";
+
+const store = useStore(key);
+const router = useRouter();
+
+type User = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+};
+const user: User = {
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+};
+const register = (e: Event) => {
+  e.preventDefault();
+  store.dispatch("register", user).then(() => {
+    router.push({ name: "Dashboard" });
+  });
+};
+</script>
+
 <template>
   <div>
     <img
@@ -19,7 +48,7 @@
       </router-link>
     </p>
   </div>
-  <form class="mt-8 space-y-6" action="#" method="POST">
+  <form class="mt-8 space-y-6" @submit="(e) => register(e)">
     <input type="hidden" name="remember" value="true" />
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
@@ -29,7 +58,7 @@
           name="name"
           type="text"
           autocomplete="name"
-          required=""
+          v-model="user.name"
           class="
             appearance-none
             rounded-none
@@ -58,7 +87,7 @@
           name="email"
           type="email"
           autocomplete="email"
-          required=""
+          v-model="user.email"
           class="
             appearance-none
             rounded-none
@@ -80,13 +109,43 @@
         />
       </div>
       <div>
-        <label for="password" class="sr-only">Password</label>
+        <label for="password" class="sr-only">パスワード</label>
         <input
           id="password"
           name="password"
           type="password"
           autocomplete="current-password"
-          required=""
+          v-model="user.password"
+          class="
+            appearance-none
+            rounded-none
+            relative
+            block
+            w-full
+            px-3
+            py-2
+            border border-gray-300
+            placeholder-gray-500
+            text-gray-900
+            focus:outline-none
+            focus:ring-indigo-500
+            focus:border-indigo-500
+            focus:z-10
+            sm:text-sm
+          "
+          placeholder="パスワード"
+        />
+      </div>
+      <div>
+        <label for="password_confirmation" class="sr-only"
+          >パスワード確認用</label
+        >
+        <input
+          id="password_confirmation"
+          name="password_confirmation"
+          type="password"
+          autocomplete="current-password_confirmation"
+          v-model="user.password_confirmation"
           class="
             appearance-none
             rounded-none
@@ -105,7 +164,7 @@
             focus:z-10
             sm:text-sm
           "
-          placeholder="パスワード"
+          placeholder="パスワード確認用"
         />
       </div>
     </div>
@@ -166,13 +225,3 @@
     </div>
   </form>
 </template>
-
-<script>
-import { LockClosedIcon } from "@heroicons/vue/solid";
-
-export default {
-  components: {
-    LockClosedIcon,
-  },
-};
-</script>
