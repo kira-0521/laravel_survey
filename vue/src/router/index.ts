@@ -9,6 +9,7 @@ import Surveys from "../views/Surveys.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
+import AuthLayout from "../components/AuthLayout.vue";
 
 import { store } from "../store";
 
@@ -25,8 +26,17 @@ const routes = [
             { path: "/surveys", name: "Surveys", component: Surveys },
         ],
     },
-    { path: "/login", name: "Login", component: Login },
-    { path: "/register", name: "Register", component: Register },
+    {
+        path: "/auth",
+        redirect: "login",
+        name: "Auth",
+        meta: { isGuest: true },
+        component: AuthLayout,
+        children: [
+            { path: "/login", name: "Login", component: Login },
+            { path: "/register", name: "Register", component: Register },
+        ],
+    },
 ];
 
 const router = createRouter({
@@ -44,9 +54,9 @@ router.beforeEach(
         if (to.meta.requiresAuth && !store.state.user.token) {
             next({ name: "Login" });
         } else if (
-            // 認証済みはloginとregisterからdashboardへリダイレクト
+            // 認証済みはdashboardへリダイレクト
             store.state.user.token &&
-            (to.name === "Login" || to.name === "Register")
+            to.meta.isGuest
         ) {
             next({ name: "Dashboard" });
         } else {
