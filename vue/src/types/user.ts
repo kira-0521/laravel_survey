@@ -1,6 +1,10 @@
 export interface User {
-    data: {
-        name: string;
-    };
+    data: Partial<UserData>;
     token: string;
+}
+
+interface UserData {
+    name: string;
+    email: string;
+    imageUrl: string;
 }
