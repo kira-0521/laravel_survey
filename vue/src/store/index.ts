@@ -14,7 +14,7 @@ export const store = createStore<State>({
             data: {
                 name: "kira",
             },
-            token: "",
+            token: "fdsafdsaf",
         },
     },
 });
