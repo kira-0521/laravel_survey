@@ -21,7 +21,7 @@ const user: User = {
 };
 const register = (e: Event) => {
   e.preventDefault();
-  store.dispatch("register", user).then(() => {
+  store.dispatch("register", user).then((res) => {
     router.push({ name: "Dashboard" });
   });
 };

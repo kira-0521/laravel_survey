@@ -25,22 +25,25 @@ export const store = createStore<State>({
             state.user.data = {};
             state.user.token = null;
         },
+        setUser(state, userData: { token: string; user: User["data"] }) {
+            state.user.token = userData.token;
+            state.user.data = userData.user;
+            sessionStorage.setItem("TOKEN", userData.token);
+        },
     },
     actions: {
-        register({ commit }, user) {
-            return fetch("http://localhost:8000/api/register", {
+        async register({ commit }, user) {
+            const res = await fetch("http://localhost:8000/api/register", {
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 },
                 method: "POST",
                 body: JSON.stringify(user),
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    commit("setUser", res);
-                    return res;
-                });
+            });
+            await res.json();
+            commit("setUser", res);
+            return res;
         },
     },
 });
