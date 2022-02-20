@@ -1,6 +1,7 @@
 import { InjectionKey } from "vue";
 import { createStore, Store } from "vuex";
 import { User } from "../types/user";
+import axiosClient from "../axios";
 
 export interface State {
     user: User;
@@ -33,17 +34,22 @@ export const store = createStore<State>({
     },
     actions: {
         async register({ commit }, user) {
-            const res = await fetch("http://localhost:8000/api/register", {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                method: "POST",
-                body: JSON.stringify(user),
-            });
-            await res.json();
-            commit("setUser", res);
-            return res;
+            try {
+                const { data } = await axiosClient.post("/register", user);
+                commit("setUser", data);
+                return data;
+            } catch (err) {
+                return err;
+            }
+        },
+        async login({ commit }, user) {
+            try {
+                const { data } = await axiosClient.post("/login", user);
+                commit("setUser", data);
+                return data;
+            } catch (err) {
+                return err;
+            }
         },
     },
 });

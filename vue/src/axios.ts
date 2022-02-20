@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useStore } from "vuex";
-import { key } from "./store";
 
-const store = useStore(key);
+const store = useStore();
 
 const axiosClient = axios.create({
     baseURL: "http://localhost:8000/api",

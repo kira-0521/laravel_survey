@@ -1,3 +1,33 @@
+<script lang="ts" setup>
+import { LockClosedIcon } from "@heroicons/vue/solid";
+import { useStore } from "vuex";
+import { key } from "../store";
+import { useRouter } from "vue-router";
+import { reactive, ref } from "vue";
+
+const store = useStore(key);
+const router = useRouter();
+
+const user = reactive({
+  email: "",
+  password: "",
+  remember: false,
+});
+const errMsg = ref("");
+const login = (e: Event) => {
+  e.preventDefault();
+
+  store
+    .dispatch("login", user)
+    .then(() => {
+      router.push({
+        name: "Dashboard",
+      });
+    })
+    .catch((err) => (errMsg.value = err.response.data.error));
+};
+</script>
+
 <template>
   <div>
     <img
@@ -19,7 +49,51 @@
       </router-link>
     </p>
   </div>
-  <form class="mt-8 space-y-6" action="#" method="POST">
+  <form class="mt-8 space-y-6" @submit="login">
+    <div
+      v-if="errMsg"
+      class="
+        flex
+        items-center
+        justify-between
+        py-3
+        px-5
+        bg-red-500
+        text-white
+        rounded
+      "
+    >
+      {{ errMsg }}
+      <span
+        @click="errMsg = ''"
+        class="
+          w-8
+          h-8
+          flex
+          items-center
+          justify-center
+          rounded-full
+          transition-colors
+          cursor-pointer
+          hover:bg-[rgba(0,0,0,0.2)]
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </span>
+    </div>
     <input type="hidden" name="remember" value="true" />
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
@@ -28,8 +102,8 @@
           id="email-address"
           name="email"
           type="email"
+          v-model="user.email"
           autocomplete="email"
-          required=""
           class="
             appearance-none
             rounded-none
@@ -57,8 +131,8 @@
           id="password"
           name="password"
           type="password"
+          v-model="user.password"
           autocomplete="current-password"
-          required=""
           class="
             appearance-none
             rounded-none
@@ -88,6 +162,7 @@
           id="remember-me"
           name="remember-me"
           type="checkbox"
+          v-model="user.remember"
           class="
             h-4
             w-4
@@ -138,13 +213,3 @@
     </div>
   </form>
 </template>
-
-<script>
-import { LockClosedIcon } from "@heroicons/vue/solid";
-
-export default {
-  components: {
-    LockClosedIcon,
-  },
-};
-</script>
