@@ -14,9 +14,7 @@ const user = reactive({
   remember: false,
 });
 const errMsg = ref("");
-const login = (e: Event) => {
-  e.preventDefault();
-
+const login = () => {
   store
     .dispatch("login", user)
     .then(() => {
@@ -49,7 +47,7 @@ const login = (e: Event) => {
       </router-link>
     </p>
   </div>
-  <form class="mt-8 space-y-6" @submit="login">
+  <form class="mt-8 space-y-6" @submit.prevent="login">
     <div
       v-if="errMsg"
       class="

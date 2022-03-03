@@ -13,8 +13,8 @@ export const store = createStore<State>({
     state: {
         user: {
             data: {
-                name: "Kira Tanaka",
-                email: "pyscripthon@gmail.com",
+                name: "tantaka",
+                email: "email",
                 imageUrl:
                     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
             },
@@ -34,22 +34,34 @@ export const store = createStore<State>({
     },
     actions: {
         async register({ commit }, user) {
-            try {
-                const { data } = await axiosClient.post("/register", user);
-                commit("setUser", data);
-                return data;
-            } catch (err) {
-                return err;
-            }
+            return fetch(`http://localhost:8000/api/register`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                method: "POST",
+                body: JSON.stringify(user),
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    commit("setUser", res);
+                    return res;
+                });
         },
         async login({ commit }, user) {
-            try {
-                const { data } = await axiosClient.post("/login", user);
-                commit("setUser", data);
-                return data;
-            } catch (err) {
-                return err;
-            }
+            return fetch(`http://localhost:8000/api/login`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                method: "POST",
+                body: JSON.stringify(user),
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    commit("setUser", res);
+                    return res;
+                });
         },
     },
 });

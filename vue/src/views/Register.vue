@@ -15,11 +15,11 @@ const user = reactive({
   password_confirmation: "",
 });
 const errMsg = ref("");
-const register = (e: Event) => {
-  e.preventDefault();
+const register = () => {
   store
     .dispatch("register", user)
     .then((res) => {
+      console.log("regi success", res);
       router.push({ name: "Dashboard" });
     })
     .catch((err) => (errMsg.value = err.response.data.error));
@@ -34,7 +34,7 @@ const register = (e: Event) => {
       alt="Workflow"
     />
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      Register to your account
+      ユーザー登録
     </h2>
     <p class="mt-2 text-center text-sm text-gray-600">
       または
@@ -47,7 +47,7 @@ const register = (e: Event) => {
       </router-link>
     </p>
   </div>
-  <form class="mt-8 space-y-6" @submit="register">
+  <form class="mt-8 space-y-6" @submit.prevent="register">
     <div
       v-if="errMsg"
       class="
