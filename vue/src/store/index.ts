@@ -34,34 +34,16 @@ export const store = createStore<State>({
     },
     actions: {
         async register({ commit }, user) {
-            return fetch(`http://localhost:8000/api/register`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                method: "POST",
-                body: JSON.stringify(user),
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    commit("setUser", res);
-                    return res;
-                });
+            return axiosClient.post("register", user).then(({ data }) => {
+                commit("setUser", data);
+                return data;
+            });
         },
         async login({ commit }, user) {
-            return fetch(`http://localhost:8000/api/login`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                method: "POST",
-                body: JSON.stringify(user),
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    commit("setUser", res);
-                    return res;
-                });
+            return axiosClient.post("login", user).then(({ data }) => {
+                commit("setUser", data);
+                return data;
+            });
         },
     },
 });

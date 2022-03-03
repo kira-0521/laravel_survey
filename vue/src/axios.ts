@@ -1,10 +1,8 @@
 import axios from "axios";
-import { useStore } from "vuex";
-
-const store = useStore();
+import { store } from "./store/index";
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "http://localhost:8000/api/",
 });
 
 axiosClient.interceptors.request.use((config) => {
