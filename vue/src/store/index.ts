@@ -34,16 +34,19 @@ export const store = createStore<State>({
     },
     actions: {
         async register({ commit }, user) {
-            return axiosClient.post("register", user).then(({ data }) => {
-                commit("setUser", data);
-                return data;
-            });
+            const { data } = await axiosClient.post("/register", user);
+            commit("setUser", data);
+            return data;
         },
         async login({ commit }, user) {
-            return axiosClient.post("login", user).then(({ data }) => {
-                commit("setUser", data);
-                return data;
-            });
+            const { data } = await axiosClient.post("/login", user);
+            commit("setUser", data);
+            return data;
+        },
+        async logout({ commit }) {
+            const res = await axiosClient.post("/logout");
+            commit("logout");
+            return res;
         },
     },
 });
