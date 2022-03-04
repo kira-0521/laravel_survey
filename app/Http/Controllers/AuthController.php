@@ -66,4 +66,16 @@ class AuthController extends Controller
         ]);
     }
 
+    public function logout()
+    {
+        $user = Auth::user();
+
+        // token取り消し
+        $user->currentAccessToken()->delete();
+
+        return response([
+            'success' => true
+        ]);
+    }
+
 }
