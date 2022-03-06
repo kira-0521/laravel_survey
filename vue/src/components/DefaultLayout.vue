@@ -9,22 +9,21 @@ import {
   MenuItems,
 } from "@headlessui/vue";
 import { MenuIcon, XIcon } from "@heroicons/vue/outline";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { computed } from "vue";
-import { key } from "../store/index";
+import { useUserStore } from "../store/user";
+const userStore = useUserStore();
 
 const navigation = [
   { name: "Dashboard", to: { name: "Dashboard" } },
   { name: "Surveys", to: { name: "Surveys" } },
 ];
 
-const store = useStore(key);
 const router = useRouter();
 
-const user = computed(() => store.state.user.data);
+const user = computed(() => userStore.user.data);
 const logout = () => {
-  store.dispatch("logout").then(() => {
+  userStore.logout().then(() => {
     router.push({
       name: "Login",
     });

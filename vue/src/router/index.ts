@@ -11,7 +11,7 @@ import Register from "../views/Register.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 
-import { store } from "../store";
+import { useUserStore } from "../store/user";
 
 const routes = [
     {
@@ -50,12 +50,14 @@ router.beforeEach(
         from: RouteLocationNormalized,
         next: NavigationGuardNext
     ) => {
+        // ここに書かないと「getActivePinia was called with no active Pinia.」エラー
+        const userStore = useUserStore();
         // 未認証はログインへリダイレクト
-        if (to.meta.requiresAuth && !store.state.user.token) {
+        if (to.meta.requiresAuth && !userStore.user.token) {
             next({ name: "Login" });
         } else if (
             // 認証済みはdashboardへリダイレクト
-            store.state.user.token &&
+            userStore.user.token &&
             to.meta.isGuest
         ) {
             next({ name: "Dashboard" });

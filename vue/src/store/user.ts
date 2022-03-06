@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axiosClient from "../axios";
+import axiosClient from "../axiosClient";
 import { UserData } from "../types/user";
 
 interface Form {
@@ -7,11 +7,12 @@ interface Form {
     email: string;
     password: string;
     password_confirmation: string;
+    remember: boolean;
 }
-type Register = Form;
-type Login = Omit<Form, "password_confirmation">;
+type Register = Omit<Form, "remember">;
+type Login = Omit<Form, "name" | "password_confirmation">;
 
-export const useMainStore = defineStore("user", {
+export const useUserStore = defineStore("user", {
     state: () => ({
         user: {
             data: {
@@ -35,6 +36,7 @@ export const useMainStore = defineStore("user", {
             return data;
         },
         async login(user: Login) {
+            console.log("user", user);
             const { data } = await axiosClient.post("/login", user);
             this.setUser(data);
             return data;
