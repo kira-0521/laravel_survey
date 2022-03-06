@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
-import { useStore } from "vuex";
-import { key } from "../store";
+import { useUserStore } from "../store/user";
 import { useRouter } from "vue-router";
 import { reactive, ref } from "vue";
 
-const store = useStore(key);
+const userStore = useUserStore();
 const router = useRouter();
 
 const user = reactive({
@@ -15,8 +14,8 @@ const user = reactive({
 });
 const errMsg = ref("");
 const login = () => {
-  store
-    .dispatch("login", user)
+  userStore
+    .login(user)
     .then(() => {
       router.push({
         name: "Dashboard",

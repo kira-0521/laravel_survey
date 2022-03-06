@@ -1,9 +1,9 @@
 export interface User {
-    data: Partial<UserData>;
-    token: string | null;
+    data: UserData;
+    token: string;
 }
 
-interface UserData {
+export interface UserData {
     name: string;
     email: string;
     imageUrl: string;
