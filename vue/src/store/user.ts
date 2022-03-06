@@ -15,11 +15,7 @@ type Login = Omit<Form, "name" | "password_confirmation">;
 export const useUserStore = defineStore("user", {
     state: () => ({
         user: {
-            data: {
-                name: "",
-                email: "",
-                imageUrl: "",
-            },
+            data: {} as UserData,
             token: "",
         },
     }),
