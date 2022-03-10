@@ -8,7 +8,7 @@ export type question = {
     };
 };
 
-export type Surveys = {
+export type Survey = {
     id: number;
     title: string;
     slug: string;
@@ -21,4 +21,4 @@ export type Surveys = {
     questions: Array<question>;
 };
 
-export type tempSurveys = Array<Surveys>;
+export type Surveys = Array<Survey>;

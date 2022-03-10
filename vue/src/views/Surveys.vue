@@ -2,11 +2,11 @@
 import { computed } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 import { useSurveyStore } from "../store/survey";
-import { Surveys } from "../types/tmpSurveys";
+import { Survey } from "../types/tmpSurveys";
 const surveyStore = useSurveyStore();
 
 const surveys = computed(() => surveyStore.surveys);
-const deleteSurvey = (survey: Surveys) => {
+const deleteSurvey = (survey: Survey) => {
   if (confirm("この質問を本当に削除していいですか？戻せなくなります。")) {
     // delete survey
   }

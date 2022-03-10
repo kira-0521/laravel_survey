@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { tempSurveys } from "../types/tmpSurveys";
+import { Surveys } from "../types/tmpSurveys";
 
 const tmpSurveys = [
     {
@@ -219,7 +219,7 @@ const tmpSurveys = [
 
 export const useSurveyStore = defineStore("survey", {
     state: () => ({
-        surveys: [...tmpSurveys] as tempSurveys,
+        surveys: [...tmpSurveys] as Surveys,
     }),
     actions: {},
 });
